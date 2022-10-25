@@ -35,24 +35,47 @@ class _ListaScreenState extends State<ListaScreen> {
                                 usuarioModificar: listaUsuarios[index],
                               )));
                   setState(() {
-                    if(usuarioActualizado != null){
+                    if (usuarioActualizado != null) {
                       listaUsuarios.removeAt(index);
                       listaUsuarios.insert(index, usuarioActualizado);
                       print(listaUsuarios[index].nombre);
 
                       showDialog(
-                        context: context,
-                        builder: (_) => const AlertDialog(
-                              title: Text('Actualización'),
-                              content:
-                                  Text('El usuario fue actualizado con éxito'),
-                            ));
+                          context: context,
+                          builder: (_) => const AlertDialog(
+                                title: Text('Actualización'),
+                                content: Text(
+                                    'El usuario fue actualizado con éxito'),
+                              ));
                     }
-
-                    
                   });
                 },
-                onLongPress: () {},
+                onLongPress: () {
+                  /* Método para eliminar usuario */
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            title: const Text('Eliminar usuario'),
+                            content: const Text(
+                                '¿Seguro que quieres eliminar este usuario?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      listaUsuarios
+                                          .remove(listaUsuarios[index]);
+                                      Navigator.pop(context);
+                                    });
+                                  },
+                                  child: Text('Eliminar')),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancelar'))
+                            ],
+                          ));
+                },
                 title: Text(listaUsuarios[index].nombre),
                 subtitle: Text(listaUsuarios[index].escolaridad),
                 leading: const Icon(Icons.supervised_user_circle),
