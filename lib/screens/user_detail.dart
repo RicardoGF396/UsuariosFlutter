@@ -211,7 +211,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       onChanged: ((value) {
                         setState(() {
                           javascript = value!;
-                          
                         });
                       })),
                   CheckboxListTile(
@@ -247,30 +246,40 @@ class _DetailScreenState extends State<DetailScreen> {
                             onPrimary: Colors.white,
                             padding: EdgeInsets.symmetric(horizontal: 50)),
                         onPressed: (() {
-                          /* Revisar que habilidades fueron activadas */
-                          if (java) {
-                            listaHabilidades.add((javaS));
-                          }
-                          if (javascript) {
-                            listaHabilidades.add((javascriptS));
-                          }
-                          if (dart) {
-                            listaHabilidades.add((dartS));
-                          }
+                          if (usuario.isEmpty ||
+                              contrasena.isEmpty ||
+                              genero.isEmpty) {
+                            showDialog(
+                                context: context,
+                                builder: (_) => const AlertDialog(
+                                      title: Text(
+                                          'No se pudo enviar el formulario'),
+                                      content: Text('Llena todos los campos'),
+                                    ));
+                          } else {
+                            /* Revisar que habilidades fueron activadas */
+                            if (java) {
+                              listaHabilidades.add((javaS));
+                            }
+                            if (javascript) {
+                              listaHabilidades.add((javascriptS));
+                            }
+                            if (dart) {
+                              listaHabilidades.add((dartS));
+                            }
 
-                          nuevaListaUsuarios = widget.listaUsuarios;
+                            nuevaListaUsuarios = widget.listaUsuarios;
 
-                          nuevaListaUsuarios.add(Usuario(
-                              nombre: usuario,
-                              contrasena: contrasena,
-                              escolaridad: escolaridad,
-                              genero: genero,
-                              habilidades: listaHabilidades));
+                            nuevaListaUsuarios.add(Usuario(
+                                nombre: usuario,
+                                contrasena: contrasena,
+                                escolaridad: escolaridad,
+                                genero: genero,
+                                habilidades: listaHabilidades));
 
-                          /* Regresamos a la pantalla de inicio */
-                          Navigator.pop(
-                            context, nuevaListaUsuarios
-                          );
+                            /* Regresamos a la pantalla de inicio */
+                            Navigator.pop(context, nuevaListaUsuarios);
+                          }
                         }),
                         child: Text('Guardar'),
                       )
